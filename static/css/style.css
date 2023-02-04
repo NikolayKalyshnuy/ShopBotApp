@@ -1,0 +1,79 @@
+:root {
+    --color-green: #198754;
+    --color-red: #dc3545;
+}
+
+button:active, button:focus {
+    outline: none !important;
+}
+
+button::-moz-focus-inner {
+    border: 0 !important;
+}
+
+.btn {
+        border: none;
+}
+
+.btn:focus {
+    box-shadow: none;
+}
+
+.card {
+    position: relative;
+    border-radius: 5%;
+    background-color: whitesmoke;
+    padding: 5px 0 10px 0;
+}
+
+.card-counter {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+}
+
+.card-counter > div {
+    display: table-cell;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    background-color: green;
+    text-align: center;
+    vertical-align: middle;
+    font-size: small;
+    font-weight: 700;
+    color: white;
+}
+
+.card-price {
+    font-weight: 700;
+}
+
+.card-btn {
+    /*height: 2.5em;*/
+    /*border-radius: 5%;*/
+    color: white;
+    font-weight: 700;
+    font-size: large;
+}
+
+.card-btn:focus {
+    outline: none;
+    border: none;
+}
+
+.btn-plus {
+
+    background-color: var(--color-green);
+}
+
+.btn-minus {
+    background-color: var(--color-red);
+}
+
+.btn-send {
+    background-color: var(--color-green);
+    color: white;
+    font-weight: 700;
+    font-size: large;
+}

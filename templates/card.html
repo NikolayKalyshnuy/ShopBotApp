@@ -1,0 +1,22 @@
+<div class="card my-2" id="{{ "card_" + card.id }}">
+    <div class="card-counter d-none">
+        <div>{{ card.counter }}</div>
+    </div>
+    {% if card.img_src %}
+        <img class=".img-fluid" src="{{ card.img_src }}" alt="{{ card.title }}">
+    {% else %}
+        <img class=".img-fluid" src="{{ url_for('static', filename='images/not_img.png') }}" alt="Image not found">
+    {% endif %}
+    <div class="text-center">{{ card.title }}</div>
+    <div class="text-center "><span class="price">{{ card.price }}</span> $</div>
+    <div class="container">
+        <div class="row my-2">
+            <div class="col-6">
+                <button class="btn card-btn btn-danger btn-minus w-100 p-2">-</button>
+            </div>
+            <div class="col-6">
+                <button class="btn card-btn btn-success btn-plus w-100 p-2">+</button>
+            </div>
+        </div>
+    </div>
+</div>
