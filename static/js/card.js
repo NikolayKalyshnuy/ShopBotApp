@@ -42,7 +42,7 @@ function card_buttons_handler(evt) {
         }
     }
 
-    send_button.innerHTML = `<span>Total ${total_count} pc.</span><br>${total_price} $`;
+    send_button.innerHTML = `<span>Total ${total_count} pc.</span><br>${total_price.toFixed(2)} $`;
 
     console.log(products);
 }
