@@ -56,4 +56,4 @@ Telegram.WebApp.onEvent("mainButtonClicked", () => {
     tg.sendData(JSON.stringify(Object.fromEntries(products)));
 });
 
-// console.log(JSON.stringify(Object.fromEntries(products)));
+console.log(JSON.stringify(Object.fromEntries(products)));
