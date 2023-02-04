@@ -49,7 +49,8 @@ button::-moz-focus-inner {
     font-weight: 700;
 }
 
-.card-btn {
+.card-btn,
+.btn-send {
     /*height: 2.5em;*/
     /*border-radius: 5%;*/
     color: white;
@@ -57,23 +58,16 @@ button::-moz-focus-inner {
     font-size: large;
 }
 
-.card-btn:focus {
-    outline: none;
-    border: none;
-}
+/*.card-btn:focus {*/
+/*    outline: none;*/
+/*    border: none;*/
+/*}*/
 
-.btn-plus {
-
+.btn-plus,
+.btn-send {
     background-color: var(--color-green);
 }
 
 .btn-minus {
     background-color: var(--color-red);
-}
-
-.btn-send {
-    background-color: var(--color-green);
-    color: white;
-    font-weight: 700;
-    font-size: large;
 }

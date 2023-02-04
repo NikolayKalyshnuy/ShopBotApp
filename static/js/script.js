@@ -30,41 +30,30 @@ function card_buttons_handler(evt) {
     if (counter.innerText > 0) {
         card_counter.classList.remove("d-none");
         products.set(id, counter.innerText);
-        send_button.classList.remove("disabled");
-        tg.MainButton.setText(`Total ${total_count} pc.\n${total_price} $`);
-        tg.MainButton.show();
     } else {
         card_counter.classList.add("d-none");
         products.delete(id)
-        if (products.has(id)) {
-            send_button.classList.add("disabled");
-            tg.MainButton.hide();
-        }
+    }
+
+    if (total_count == 0) {
+        send_button.classList.add("disabled");
+        tg.MainButton.setText(`Total ${total_count} pc.\n${total_price.toFixed(2)} $`);
+        tg.MainButton.show();
+    } else {
+        send_button.classList.remove("disabled");
+        tg.MainButton.hide();
     }
 
     send_button.innerHTML = `<span>Total ${total_count} pc.</span><br>${total_price} $`;
-
-    console.log(products);
 }
 
 card_buttons.forEach((btn) => {
     btn.addEventListener("click", card_buttons_handler);
 });
 
-function send_buttons_handler() {
-    console.log(JSON.stringify(Object.fromEntries(products)));
-}
-
-
-// if (tg.MainButton.isVisible) {
-//     tg.MainButton.hide();
-// }
-// else {
-//     tg.MainButton.setText("Вы выбрали товар 1!");
-//     item = "1";
-//     tg.MainButton.show();
-// }
 
 Telegram.WebApp.onEvent("mainButtonClicked", () => {
     tg.sendData(JSON.stringify(Object.fromEntries(products)));
 });
+
+// console.log(JSON.stringify(Object.fromEntries(products)));

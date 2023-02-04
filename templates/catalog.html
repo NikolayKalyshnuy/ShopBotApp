@@ -4,17 +4,20 @@
     <div class="container">
         <div class="row">
             {% for card in cards %}
-                <div class="col-3">
+                <div class="col-6 col-sm-4 col-md-3">
                     {% include "card.html" %}
                 </div>
             {% endfor %}
         </div>
         <div class="row my-5">
             <div class="col-4 offset-4">
-                <button class="btn btn-send w-100 disabled" onclick="send_buttons_handler()">Total 0 pc.<br>0 $</button>
+                <button class="btn btn-success btn-send w-100 disabled" data-bs-toggle="modal" data-bs-target="#modal">Total 0 pc.<br>0 $</button>
             </div>
         </div>
     </div>
+
+    {% include "cart.html" %}
+
     <script src="{{ url_for('static', filename='js/telegram-web-app.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/card.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}
