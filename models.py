@@ -1,8 +1,5 @@
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import BLOB, FLOAT, TEXT, INTEGER, Column, ForeignKey, DECIMAL
-from sqlalchemy.orm import relationship
-
-BaseClass = declarative_base()
+from datetime import datetime
+from app import db
 
 
 class MockCard:
@@ -14,74 +11,78 @@ class MockCard:
         self.counter = counter
 
 
-class Product(BaseClass):
-    __tablename__ = 'Products'
+class Role(db.Model):
+    __tablename__ = "Role"
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    name = db.Column(db.TEXT, unique=True)
 
-    id = Column(INTEGER, primary_key=True, autoincrement=True)
-    name = Column(TEXT)
-    description = Column(TEXT)
-    picture = Column(TEXT)
-    price = Column(FLOAT)
-    quantity = Column(INTEGER)
-
-    orders = relationship("OrderProduct", back_populates="product")
+    def __repr__(self):
+        return f'<Role {self.name}>'
 
 
-class OrderProduct(BaseClass):
-    __tablename__ = 'Orders-Products'
-
-    id = Column(INTEGER, primary_key=True)
-    id_order = Column(ForeignKey("Products.id"))
-    id_product = Column(ForeignKey("Orders.id"))
-
-    quantity = Column(INTEGER)
-
-    order = relationship("Order", back_populates="products")
-    product = relationship("Product", back_populates="orders")
+class Admin(db.Model):
+    __tablename__ = "Admin"
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    login = db.Column(db.TEXT)
+    password = db.Column(db.TEXT)
 
 
-class Order(BaseClass):
-    __tablename__ = 'Orders'
-
-    id = Column(INTEGER, primary_key=True, autoincrement=True)
-    id_user = Column(INTEGER, ForeignKey("Users.id_Telegram"))
-    pickupPoint = Column(INTEGER, ForeignKey("Pickup_points.id"))
-    dateTime = Column(INTEGER)
-    typePay = Column(TEXT)
-    status = Column(TEXT)
-
-    point = relationship("PickupPoint", back_populates="order_pick_up_point_child")
-    user = relationship("User", back_populates="order_user_child")
-    products = relationship("OrderProduct", back_populates="order")
+class User(db.Model):
+    __tablename__ = "User"
+    id = db.Column(db.INTEGER, primary_key=True)
+    name = db.Column(db.TEXT)
+    lastName = db.Column(db.TEXT)
+    id_role = db.Column(db.INTEGER, db.ForeignKey("role.id"), default=1)
+    role = db.relationship("Role", back_populates="user")
+    orders = db.relationship("Order", back_populates="user", cascade="all, delete-orphan")
 
 
-class User(BaseClass):
-    __tablename__ = 'Users'
-
-    id_Telegram = Column(INTEGER, primary_key=True, unique=True)
-    role = Column(INTEGER, ForeignKey("Roles.id"), default=1)
-    name = Column(TEXT)
-    lastName = Column(TEXT)
-    # зв'язок з Role
-    role_parent = relationship("Role", back_populates="user_role_child")
-    # зв'язок з Order
-    order_user_child = relationship("Order", back_populates="user_parent", cascade="all, delete-orphan")
+class Point(db.Model):
+    __tablename__ = "Point"
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    name = db.Column(db.TEXT, default="", unique=True)
+    link = db.Column(db.TEXT, unique=True)
+    # order = db.relationship("Order", back_populates="point", cascade="all, delete-orphan")
 
 
-class Role(BaseClass):
-    __tablename__ = 'Roles'
+class OrderProduct(db.Model):
+    __tablename__ = "OrderProduct"
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
 
-    id = Column(INTEGER, primary_key=True, autoincrement=True)
-    name = Column(INTEGER)
-    user_role_child = relationship("User", back_populates="role_parent", cascade="all, delete-orphan")
+    id_order = db.Column(db.ForeignKey("order.id"))
+    id_product = db.Column(db.ForeignKey("product.id"))
+
+    quantity = db.Column(db.INTEGER, default=0)
+
+    order = db.relationship("Order", back_populates="products")
+    product = db.relationship("Product", back_populates="orders")
 
 
-class PickupPoint(BaseClass):
-    __tablename__ = 'Pickup_points'
+class Product(db.Model):
+    __tablename__ = "Product"
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
 
-    id = Column(INTEGER, primary_key=True, autoincrement=True)
-    name = Column(TEXT)
-    coordinats = Column(TEXT)
-    # зв'язок з Order
-    order_pick_up_point_child = relationship("Order", back_populates="pick_up_point_order_parent",
-                                             cascade="all, delete-orphan")
+    name = db.Column(db.TEXT)
+    # description = db.Column(db.TEXT, default="")
+    picture = db.Column(db.TEXT, default="/static/images/not_img.png")  # TODO: Maby blob
+    price = db.Column(db.DECIMAL)
+    quantity = db.Column(db.INTEGER, default=0)
+
+    orders = db.relationship("Order", secondary="orderproduct", back_populates="orders")
+
+
+class Order(db.Model):
+    __tablename__ = "Order"
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+
+    id_user = db.Column(db.INTEGER, db.ForeignKey("User.id"))
+    id_point = db.Column(db.INTEGER, db.ForeignKey("Point.id"))
+    # default = datetime.now, onupdate = datetime.now
+    timestamp = db.Column(db.DATETIME, index=True, default=datetime.utcnow)
+    typePay = db.Column(db.TEXT, default="Ear")  # TODO: Add table TypePay
+    status = db.Column(db.TEXT, default="Pending")  # TODO: Add table Status
+
+    user = db.relationship("User", back_populates="orders")
+    point = db.relationship("Point", back_populates="order")
+
+    products = db.relationship("Product", secondary="OrderProduct", back_populates="products")
