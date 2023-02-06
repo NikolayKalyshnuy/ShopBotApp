@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/bootstrap/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/bootstrap/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     {% block body %}{% endblock %}
-    <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/bootstrap/js/bootstrap.js') }}"></script>
 </body>
 </html>
