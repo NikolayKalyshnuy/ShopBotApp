@@ -9,15 +9,21 @@
             <div class="modal-body">
                 <table class="table-borderless">
                     <tbody>
-                      <tr>
-                        <td>
-                            
-                        </td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
+                        {% for card in cards %}
+                        <tr>
+                            <td>
+                                <img src="{{ card.img_src }}" alt="">
+                            </td>
+                            <td>
+                                {{ card.title }} <span>X{{  }}</span>
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                        {% end %}
                     </tbody>
-                  </table>
+                </table>
                 <!-- <div class="container">
                     <div class="row">
                         <div class="col-2">
