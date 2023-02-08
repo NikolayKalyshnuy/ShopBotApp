@@ -44,7 +44,7 @@ function card_buttons_handler(evt) {
         tg.MainButton.hide();
     }
 
-    send_button.innerHTML = `<span>Total ${total_count} pc.</span><br>${total_price.toFixed(2)} $`;
+    send_button.innerHTML = `<span>Total ${total_count} pc.</span><br>${total_price} $`;
 }
 
 card_buttons.forEach((btn) => {

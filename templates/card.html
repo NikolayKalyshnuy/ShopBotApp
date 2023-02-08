@@ -1,19 +1,19 @@
-<div class="card my-2" id="{{ 'product_{}'.format(product.id) }}">
+<div class="card my-2" id="{{ "card_" + card.id }}">
 
     <div class="card-counter d-none">
-        <div>{{ product.counter }}</div>
+        <div>{{ card.counter }}</div>
     </div>
 
     <div class="card-img py-3">
-        {% if product.picture %}
-            <img class=".img-fluid" src="{{ url_for('static', filename=product.picture) }}" alt="{{ product.name }}">
+        {% if card.img_src %}
+            <img class=".img-fluid" src="{{ card.img_src }}" alt="{{ card.title }}">
         {% else %}
             <img class=".img-fluid" src="{{ url_for('static', filename='images/not_img.png') }}" alt="Image not found">
         {% endif %}
     </div>
 
-    <div class="text-center">{{ product.name }}</div>
-    <div class="text-center "><span class="price">{{ '{:.2f}'.format(product.price) }}</span> $</div>
+    <div class="text-center">{{ card.title }}</div>
+    <div class="text-center "><span class="price">{{ '{:.2f}'.format(card.price) }}</span> $</div>
 
     <div class="container">
         <div class="row my-2">
