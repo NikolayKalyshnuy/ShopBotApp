@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+import os
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, executor
@@ -23,4 +24,4 @@ dispatcher = Dispatcher(bot, loop, storage=storage)
 import models, routes
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, port=os.getenv("PORT", default=5000))
